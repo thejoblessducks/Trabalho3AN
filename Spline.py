@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from gekko import GEKKO as gk
+from scipy.interpolate import CubicSpline as cs
 
 plt.ioff()
 '''-----------------------------------------------------------------------------
@@ -16,8 +17,9 @@ class Spline():
         plt.plot(x,y,"bo",label="Data")
         plt.show()
     def buildSpline(self):
-        lower = self.x_points[0]-1
-        upper = self.x_points[-1]+1
+        #The spline is not a natural spline
+        lower = self.x_points[0]
+        upper = self.x_points[-1]
         x=self.x_points
         y=self.y_points
         spl = gk() #Build new Model
@@ -27,3 +29,8 @@ class Spline():
         spl.options.IMODE = 2
         spl.solve(disp=False) #don't show steps
         return spl.x,spl.y
+    def buildNormalSpline(self):
+        x = self.x_points
+        y = self.y_points
+        spline = cs(x,y,bc_type='natural')
+        return spline
