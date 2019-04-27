@@ -2,7 +2,6 @@ from __future__ import division
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import minimize_scalar as mn_s
-
 #imports for auxiliar classes
 import Spline as spl
 import Interpolation as inter
@@ -31,7 +30,6 @@ def graphicTable(x,y,func=False):
     plt.legend(loc='lower left',ncol=2)
     plt.grid()    
     plt.show()
-
     return data,spline,data2
 
 def pointSet(lower,upper,n):
@@ -40,8 +38,7 @@ def pointSet(lower,upper,n):
     a = []
     for val in values:
         a.append(f(val))
-    return values,np.array(a)
-    
+    return values,np.array(a)    
 def maxH(x):
     #Calculates the max h value in the data_set
     max_h = None
@@ -51,7 +48,6 @@ def maxH(x):
             max_h = h
         max_h = max(max_h,h)
     return max_h
-
 def M(lower,upper,interpolation=False):
     #Calculates the max value of f(4)/f(11) in [lower,upper]
     if interpolation:
@@ -59,7 +55,6 @@ def M(lower,upper,interpolation=False):
         return abs(m.x)
     m = mn_s(lambda x : -f4(x),bounds=[lower,upper],method='bounded')
     return abs(m.x)
-
 def interpolationError(x,value,lower,upper):
     #Calculates the major error in interpolating polinomial
     m = M(lower,upper,interpolation=True)    
@@ -71,13 +66,11 @@ def interpolationError(x,value,lower,upper):
     for i in x:
         mult *= (value-i)
     return (m/fac)*mult
-
 def splineError(x,lower,upper):
     #Calculates the major error in the spline
     m = M(lower,upper,interpolation=False)
     h = maxH(x)
     return (5/384)*m*np.power(h,4)
-
 
 def ex1():
     #exercise 1
@@ -86,7 +79,6 @@ def ex1():
     spline,natural,interpolator = graphicTable(x,y,func=False)
     print("Spline equations:")
     spline.showEquations(natural)
-
 def ex2():
     #exercise 2
     x,y = pointSet(-1,1,10)
@@ -101,7 +93,6 @@ def ex2():
     print("\n\nx=0.3: ")
     print("     S(0.3)="+str(spline.calc(0.3,spline=natural)))
     print("     |f(0.3)-S(0.3)|<="+str(splineError(x,-1,1)))
-
     print("     p(0.3)="+str(interpolator.calc(0.3)))
     print("     |f(0.3)-p(0.3)<="+str(interpolationError(x,0.3,-1,1)))
 
@@ -111,9 +102,6 @@ def ex2():
 
     print("     p(0.3)="+str(interpolator.calc(0.83)))
     print("     |f(0.3)-p(0.3)<="+str(interpolationError(x,0.83,-1,1)))
-
-
-
 
 # Starter-----------------------------------------------------------------------
 print("Exercise 1:")
