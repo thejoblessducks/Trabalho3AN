@@ -2,7 +2,10 @@ import numpy as np
 from scipy.interpolate import CubicSpline as cs
 
 '''-----------------------------------------------------------------------------
-Class to represent a spline
+Class to represent a normal spline
+    Calculates the natural cubic spline
+    Calculates the spline aproximation for a given value
+    Displays the equations for each composing spline
 -----------------------------------------------------------------------------'''
 class Spline():
     def __init__(self,x_points,y_points):
