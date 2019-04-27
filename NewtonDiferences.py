@@ -1,3 +1,4 @@
+from __future__ import division
 import numpy as np
 
 class NewtonDiferences():
@@ -7,7 +8,6 @@ class NewtonDiferences():
     def dividedDiferences(self):
         x = self.x
         y = self.y
-
         n = len(x)
         a = []
         for i in range(n):
