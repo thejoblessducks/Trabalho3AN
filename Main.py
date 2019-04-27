@@ -92,7 +92,11 @@ def ex2():
     x,y = pointSet(-1,1,10)
     spline,natural, interpolator = graphicTable(x,y,func=True)
 
-    print("Spline equations:")
+    print("Data Table:")
+    for i in range(len(x)):
+        print("("+str(x[i])+","+str(y[i])+")")
+
+    print("\n\nSpline equations:")
     spline.showEquations(natural)
     print("\n\nx=0.3: ")
     print("     S(0.3)="+str(spline.calc(0.3,spline=natural)))
@@ -109,6 +113,9 @@ def ex2():
     print("     |f(0.3)-p(0.3)<="+str(interpolationError(x,0.83,-1,1)))
 
 #-------------------------------------------------------------------------------
+print("Exercise 1:")
+ex1()
+print("\nExercise2:")
 ex2()
 
 
