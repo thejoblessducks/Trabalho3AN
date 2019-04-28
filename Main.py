@@ -1,13 +1,15 @@
 from __future__ import division
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.optimize import minimize_scalar as mn_s
+from scipy.optimize import fminbound as fmin
+
 #imports for auxiliar classes
 import Spline as spl
 import Interpolation as inter
 
-'''functions, f, f(4) f(11)'''
+'''functions, f, f(2),f(4) f(9)'''
 f = lambda x: (4*np.power(x,2)+np.sin(9*x))
+f2 = lambda x: (8-8*np.cos(9*x))
 f4 = lambda x: 6561*np.cos(9*x)
 f9 = lambda x: -386239509*np.sin(9*x)
 
@@ -19,7 +21,7 @@ def graphicTable(x,y,func=False):
     
     spline = data.buildNormalSpline()   #calculates the spline for the dataset
     data2_x,data2_y= data2.interpolateData() #calculates the interpolating pol
-    xs = np.arange(x[0],x[-1]+1,0.00001)    
+    xs = np.arange(x[0],x[-1]+0.0001,0.0001)    
 
     plt.plot(x,y,"o",label="Data")
     if func:
@@ -30,15 +32,17 @@ def graphicTable(x,y,func=False):
     plt.legend(loc='lower left',ncol=2)
     plt.grid()    
     plt.show()
+
     return data,spline,data2
 
 def pointSet(lower,upper,n):
-    #Creates the n liniar spaced points in [lower,upper]
+    #Creates the liniar spaced values in [lower,upper]
     values = np.linspace(lower,upper,num=n,endpoint=True)
     a = []
     for val in values:
         a.append(f(val))
-    return values,np.array(a)    
+    return values,np.array(a)
+    
 def maxH(x):
     #Calculates the max h value in the data_set
     max_h = None
@@ -48,30 +52,34 @@ def maxH(x):
             max_h = h
         max_h = max(max_h,h)
     return max_h
+
 def M(lower,upper,interpolation=False):
-    #Calculates the max value of f(4)/f(11) in [lower,upper]
+    #Calculates the maximizer  of f(2) or f(19) in [lower,upper]
     if interpolation:
-        m = mn_s(lambda x : -f9(x),bounds=[lower,upper],method='bounded')
-        return abs(m.x)
-    m = mn_s(lambda x : -f4(x),bounds=[lower,upper],method='bounded')
-    return abs(m.x)
+        return fmin(lambda x : -f9(x),lower,upper)
+    return fmin(lambda x : -f4(x),lower,upper)
+
 def interpolationError(x,value,lower,upper):
     #Calculates the major error in interpolating polinomial
     m = M(lower,upper,interpolation=True)
-    print("     Max|f9(x)|="+str(m)+" ,"+str(lower)+"<=x<="+str(upper))
+    m = abs(f9(m))
+    print("     Max|f9(x)|="+str(m)+" ,"+str(lower)+"<=x<="+str(upper))    
     n1 = len(x)+1
-    b = np.arange(1,n1+1)
-    fac = b.prod()    
+    b = np.arange(1,n1)
+    fac = b.prod()
     mult = 1
     for i in x:
         mult *= (value-i)
-    return (m/fac)*mult
+    return (m/fac)*abs(mult)
 def splineError(x,lower,upper):
     #Calculates the major error in the spline
     m = M(lower,upper,interpolation=False)
-    print("     Max|f4(x)|="+str(m)+" ,"+str(lower)+"<=x<="+str(upper))
+    m = abs(f4(m))
     h = maxH(x)
+    print("     Max|f4(x)|="+str(m)+" ,"+str(lower)+"<=x<="+str(upper))
+    print("     Max(h)="+str(h))
     return (5/384)*m*np.power(h,4)
+
 
 def ex1():
     #exercise 1
@@ -80,6 +88,7 @@ def ex1():
     spline,natural,interpolator = graphicTable(x,y,func=False)
     print("Spline equations:")
     spline.showEquations(natural)
+
 def ex2():
     #exercise 2
     x,y = pointSet(-1,1,9)
@@ -94,21 +103,19 @@ def ex2():
     print("\n\nx=0.3: ")
     print("     S(0.3)="+str(spline.calc(0.3,spline=natural)))
     print("     |f(0.3)-S(0.3)|<="+str(splineError(x,-1,1)))
-    print("\n     p(0.3)="+str(interpolator.calc(0.3)))
-    print("     |f(0.3)-p(0.3)<="+str(interpolationError(x,0.3,-1,1)))
 
+    print("\n     p(0.3)="+str(interpolator.calc(0.3)))
+    print("     |f(0.3)-p(0.3)|<="+str(interpolationError(x,0.3,-1,1)))
+    
     print("\n\nx=0.83:")
     print("     S(0.83)="+str(spline.calc(0.83,spline=natural)))
     print("     |f(0.83)-S(0.83)|<="+str(splineError(x,-1,1)))
 
-    print("     p(0.83)="+str(interpolator.calc(0.83)))
-    print("     |f(0.83)-p(0.83)<="+str(interpolationError(x,0.83,-1,1)))
-
+    print("\n     p(0.83)="+str(interpolator.calc(0.83)))
+    print("     |f(0.83)-p(0.83)|<="+str(interpolationError(x,0.83,-1,1)))
+    
 # Starter-----------------------------------------------------------------------
 print("Exercise 1:")
 ex1()
 print("\nExercise2:")
 ex2()
-
-
-
