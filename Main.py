@@ -20,7 +20,7 @@ def graphicTable(x,y,func=False):
     
     spline = data.buildNormalSpline()   #calculates the spline for the dataset
     data2_x,data2_y= data2.interpolateData() #calculates the interpolating pol
-    xs = np.arange(x[0],x[-1]+1,0.00001)    
+    xs = np.arange(x[0],x[-1]+0.0001,0.0001)    
 
     plt.plot(x,y,"o",label="Data")
     if func:
@@ -62,7 +62,8 @@ def M(lower,upper,interpolation=False):
 
 def interpolationError(x,value,lower,upper):
     #Calculates the major error in interpolating polinomial
-    m = M(lower,upper,interpolation=True)    
+    m = M(lower,upper,interpolation=True)
+    print("     Max|f11(x)|="+str(m)+" ,"+str(lower)+"<=x<="+str(upper))    
     n1 = len(x)+1
     b = np.arange(1,n1+1)
     fac = b.prod()    
@@ -74,6 +75,7 @@ def interpolationError(x,value,lower,upper):
 def splineError(x,lower,upper):
     #Calculates the major error in the spline
     m = M(lower,upper,interpolation=False)
+    print("     Max|f4(x)|="+str(m)+" ,"+str(lower)+"<=x<="+str(upper))
     h = maxH(x)
     return (5/384)*m*np.power(h,4)
 
@@ -88,7 +90,7 @@ def ex1():
 
 def ex2():
     #exercise 2
-    x,y = pointSet(-1,1,8)
+    x,y = pointSet(-1,1,9)
     spline,natural, interpolator = graphicTable(x,y,func=True)
 
     print("Data Table:") #Show points and images in table
@@ -101,10 +103,10 @@ def ex2():
     print("     S(0.3)="+str(spline.calc(0.3,spline=natural)))
     print("     |f(0.3)-S(0.3)|<="+str(splineError(x,-1,1)))
 
-    print("     p(0.3)="+str(interpolator.calc(0.3)))
+    print("\n     p(0.3)="+str(interpolator.calc(0.3)))
     print("     |f(0.3)-p(0.3)<="+str(interpolationError(x,0.3,-1,1)))
 
-    print("\nx=0.83:")
+    print("\n\nx=0.83:")
     print("     S(0.83)="+str(spline.calc(0.83,spline=natural)))
     print("     |f(0.83)-S(0.83)|<="+str(splineError(x,-1,1)))
 

@@ -14,13 +14,14 @@ class NewtonDiferences():
         x = self.x
         y = self.y
         n = len(x)
+
         a = []
         for i in range(n):
             a.append(y[i])
+        
         for j in range(1,n):
             for i in range(n-1,j-1,-1):
                 a[i] = (a[i]-a[i-1])/(x[i]-x[i-j])
-        
         return np.array(a)
     def calInterpolation(self,a,x,value_to_interpolate):
         #given a value_to_interpolate aproximates the value through the polinomial

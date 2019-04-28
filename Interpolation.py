@@ -18,12 +18,12 @@ class Interpolation():
         divided = self.divided
         newton = self.newton
         x = self.x
+        a = np.arange(x[0],x[-1]+0.0001,0.0001)
         y = []
-        for i in x:
+        for i in a:
             #calculates the aproximation for each value
             y.append(newton.calInterpolation(divided,x,i))
-        #y = np.array(y)
-        return x,y
+        return a,y
     def calc(self,val):
         #given a value of x, val, calculates its aproximation
         divided = self.divided
