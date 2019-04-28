@@ -54,7 +54,7 @@ def maxH(x):
     return max_h
 
 def M(lower,upper,interpolation=False):
-    #Calculates the maximizer  of f(2) or f(19) in [lower,upper]
+    #Calculates the maximizer  of f4 or f9 in [lower,upper]
     if interpolation:
         return fmin(lambda x : -f9(x),lower,upper)
     return fmin(lambda x : -f4(x),lower,upper)
