@@ -82,7 +82,7 @@ def ex1():
     spline.showEquations(natural)
 def ex2():
     #exercise 2
-    x,y = pointSet(-1,1,8)
+    x,y = pointSet(-1,1,9)
     spline,natural, interpolator = graphicTable(x,y,func=True)
 
     print("Data Table:") #Show points and images in table
