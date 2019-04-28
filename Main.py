@@ -33,7 +33,7 @@ def graphicTable(x,y,func=False):
     return data,spline,data2
 
 def pointSet(lower,upper,n):
-    #Creates the liniar spaced values in [lower,upper]
+    #Creates the n liniar spaced points in [lower,upper]
     values = np.linspace(lower,upper,num=n,endpoint=True)
     a = []
     for val in values:
