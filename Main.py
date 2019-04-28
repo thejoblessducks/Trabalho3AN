@@ -10,7 +10,7 @@ import Interpolation as inter
 '''functions, f, f(4) f(11)'''
 f = lambda x: (4*np.power(x,2)+np.sin(9*x))
 f4 = lambda x: 6561*np.cos(9*x)
-f11 = lambda x: 31285400229*np.sin(9*x)
+f9 = lambda x: -386239509*np.sin(9*x)
 
 def graphicTable(x,y,func=False):
     #Spline and Interpolating polinomial calculation
@@ -55,7 +55,7 @@ def maxH(x):
 def M(lower,upper,interpolation=False):
     #Calculates the max value of f(4)/f(11) in [lower,upper]
     if interpolation:
-        m = mn_s(lambda x : -f11(x),bounds=[lower,upper],method='bounded')
+        m = mn_s(lambda x : -f9(x),bounds=[lower,upper],method='bounded')
         return abs(m.x)
     m = mn_s(lambda x : -f4(x),bounds=[lower,upper],method='bounded')
     return abs(m.x)
@@ -65,8 +65,7 @@ def interpolationError(x,value,lower,upper):
     m = M(lower,upper,interpolation=True)    
     n1 = len(x)+1
     b = np.arange(1,n1+1)
-    fac = b.prod()
-    
+    fac = b.prod()    
     mult = 1
     for i in x:
         mult *= (value-i)
@@ -89,14 +88,14 @@ def ex1():
 
 def ex2():
     #exercise 2
-    x,y = pointSet(-1,1,10)
+    x,y = pointSet(-1,1,8)
     spline,natural, interpolator = graphicTable(x,y,func=True)
 
-    print("Data Table:")
+    print("Data Table:") #Show points and images in table
     for i in range(len(x)):
         print("("+str(x[i])+","+str(y[i])+")")
 
-    print("\n\nSpline equations:")
+    print("\n\nSpline equations:") #Show Spline equations
     spline.showEquations(natural)
     print("\n\nx=0.3: ")
     print("     S(0.3)="+str(spline.calc(0.3,spline=natural)))
@@ -120,7 +119,6 @@ print("Exercise 1:")
 ex1()
 print("\nExercise2:")
 ex2()
-
 
 
 

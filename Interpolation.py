@@ -22,7 +22,7 @@ class Interpolation():
         for i in x:
             #calculates the aproximation for each value
             y.append(newton.calInterpolation(divided,x,i))
-        y = np.array(y)
+        #y = np.array(y)
         return x,y
     def calc(self,val):
         #given a value of x, val, calculates its aproximation
