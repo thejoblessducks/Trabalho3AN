@@ -57,7 +57,8 @@ def M(lower,upper,interpolation=False):
     return abs(m.x)
 def interpolationError(x,value,lower,upper):
     #Calculates the major error in interpolating polinomial
-    m = M(lower,upper,interpolation=True)    
+    m = M(lower,upper,interpolation=True)
+    print("     Max|f11(x)|="+str(m)+" ,"+str(lower)+"<=x<="+str(upper))
     n1 = len(x)+1
     b = np.arange(1,n1+1)
     fac = b.prod()    
@@ -68,6 +69,7 @@ def interpolationError(x,value,lower,upper):
 def splineError(x,lower,upper):
     #Calculates the major error in the spline
     m = M(lower,upper,interpolation=False)
+    print("     Max|f4(x)|="+str(m)+" ,"+str(lower)+"<=x<="+str(upper))
     h = maxH(x)
     return (5/384)*m*np.power(h,4)
 
@@ -92,10 +94,10 @@ def ex2():
     print("\n\nx=0.3: ")
     print("     S(0.3)="+str(spline.calc(0.3,spline=natural)))
     print("     |f(0.3)-S(0.3)|<="+str(splineError(x,-1,1)))
-    print("     p(0.3)="+str(interpolator.calc(0.3)))
+    print("\n     p(0.3)="+str(interpolator.calc(0.3)))
     print("     |f(0.3)-p(0.3)<="+str(interpolationError(x,0.3,-1,1)))
 
-    print("\nx=0.83:")
+    print("\n\nx=0.83:")
     print("     S(0.83)="+str(spline.calc(0.83,spline=natural)))
     print("     |f(0.83)-S(0.83)|<="+str(splineError(x,-1,1)))
 
